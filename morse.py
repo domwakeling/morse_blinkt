@@ -21,26 +21,31 @@ morse_dict = {
     " " : "|"
 }
 
-# utility to set all pixels to same val (expected to be in range 0-1)
-def show_all(state):
+# utility to set a continuous range of pixels to a 'grey-scale' colour; outside of that range, all off 
+def show_pixels(state, p0, p1):
     val = 0
+    p0_act = max(0, min(p0, blinkt.NUM_PIXELS - 1))
+    p1_act = max(p0_act, min(blinkt.NUM_PIXELS - 1, p1)) 
     if state > 0:
         val = min(1, state) * 255
     for i in range(blinkt.NUM_PIXELS):
-        blinkt.set_pixel(i, val, val, val)
+        if p0_act <= i <= p1_act:
+            blinkt.set_pixel(i, val, val, val)
+        else:
+            blinkt.set_pixel(i, 0, 0, 0)
     blinkt.show()
 
 # helper functions to make it easier to call dots and dashes
 def show_dot():
-    show_all(1)
+    show_pixels(1, 2, 5)
     time.sleep(DOT_TIME)
-    show_all(0)
+    show_pixels(0, 0, 7)
     time.sleep(PAUSE_TIME)
 
 def show_dash():
-    show_all(1)
+    show_pixels(1, 0, 7)
     time.sleep(DASH_TIME)
-    show_all(0)
+    show_pixels(0, 0, 7)
     time.sleep(PAUSE_TIME)
 
 def show_space():
