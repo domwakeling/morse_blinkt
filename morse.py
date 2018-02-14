@@ -53,6 +53,7 @@ def show_space():
 
 # flashing individual characters
 def show_character(chr):
+    blinkt.set_brightness(0.1)
     try:
         morse = morse_dict[chr]
         for m in morse:
@@ -78,7 +79,6 @@ if __name__ == "__main__":
     if len(sys.argv) == 1:
         print('No message')
     else:
-        blinkt.set_brightness(0.1)
         message = re.sub('[^a-zA-Z\d\s:]', '', str(sys.argv[1])).upper() #uppercase letters, numbers, spaces
         show_message(message)
 
