@@ -21,8 +21,8 @@ morse_dict = {
     " " : "|"
 }
 
-# utility to set a continuous range of pixels to a 'grey-scale' colour; outside of that range, all off 
 def show_pixels(state, p0, p1):
+    """utility to set a continuous range of pixels to a 'grey-scale' colour; outside of that range, all off""" 
     val = 0
     p0_act = max(0, min(p0, blinkt.NUM_PIXELS - 1))
     p1_act = max(p0_act, min(blinkt.NUM_PIXELS - 1, p1)) 
@@ -35,24 +35,28 @@ def show_pixels(state, p0, p1):
             blinkt.set_pixel(i, 0, 0, 0)
     blinkt.show()
 
-# helper functions to make it easier to call dots and dashes
+# helper functions to abstract dot, dash and space
 def show_dot():
+    """Helper function to show a dot, abstracting from show_pixels()"""
     show_pixels(1, 2, 5)
     time.sleep(DOT_TIME)
     show_pixels(0, 0, 7)
     time.sleep(PAUSE_TIME)
 
 def show_dash():
+    """Helper function to show a dash, abstracting from show_pixels()"""
     show_pixels(1, 0, 7)
     time.sleep(DASH_TIME)
     show_pixels(0, 0, 7)
     time.sleep(PAUSE_TIME)
 
 def show_space():
+    """Helper function to pause between words"""
     time.sleep(SPACE_TIME)
 
 # flashing individual characters
 def show_character(chr):
+    """Flash an individual character - will report if unknown character is passed"""
     blinkt.set_brightness(0.1)
     try:
         morse = morse_dict[chr]
@@ -70,6 +74,8 @@ def show_character(chr):
 
 # flashing a message
 def show_message(message):
+    """Flash a message - carries out a regular expression to produce uppercase  alphanumeric and spaces"""
+    message = re.sub('[^a-zA-z\d\s:]', '', message).upper() # only alphanumeric & spaces, upper-cased
     for chr in message:
         show_character(chr)
         time.sleep(PAUSE_TIME)
