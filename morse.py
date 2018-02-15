@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 import sys                # so we can access argumentsr with sys.arg
 import time               # so we can access time.sleep()
